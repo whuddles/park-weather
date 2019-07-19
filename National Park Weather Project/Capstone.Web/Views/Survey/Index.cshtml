@@ -1,0 +1,65 @@
+﻿@model Capstone.Web.Models.Survey
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="survey">
+    <form asp-action="SaveSurvey" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div>
+            <label>Favorite National Park</label>
+            <select asp-for="FavoriteNationalPark" asp-items="ViewBag.ParkList"></select>
+            <span asp-validation-for="FavoriteNationalPark" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Your email</label>
+            <input asp-for="Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>State of residence</label>
+            <select asp-for="State" asp-items="ViewBag.StateList"></select>
+            <span asp-validation-for="State" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Activity level:</label>
+            <div class="radioblock">
+
+                <span>
+                    <label>Inactive</label>
+                    <input type="radio" asp-for="ActivityLevel" value="Inactive" />
+                </span>
+
+                <span>
+                    <label>Sedentary</label>
+                    <input type="radio" asp-for="ActivityLevel" value="Sedentary" />
+                </span>
+
+                <span>
+                    <label>Active</label>
+                    <input type="radio" asp-for="ActivityLevel" value="Active" />
+                </span>
+
+                <span>
+                    <label>Extremely Active</label>
+                    <input type="radio" asp-for="ActivityLevel" value="Extremely Active" />
+                </span>
+
+            </div>
+            <span asp-validation-for="ActivityLevel" class="text-danger"></span>
+        </div>
+
+        <div>
+            <input type="submit" value="Submit" />
+        </div>
+
+    </form>
+</div>
+
+
+

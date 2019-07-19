@@ -1,0 +1,110 @@
+﻿@model ParkPlusWeather
+@{
+    ViewData["Title"] = "Detail";
+    string imageName = Model.Park.ParkCode + ".jpg";
+    string weatherImage0 = Model.Weathers[0].Forecast.Replace(" ", "") + ".png";
+    string tempType = ViewData["tempType"] as string;
+
+    int ToCelsius(int fahrenheitTemp)
+    {
+        return (fahrenheitTemp - 32) * 5 / 9;
+    }
+}
+
+<div class="detail">
+
+    <img src="~/images/parks/@imageName" />
+    <div>
+        <h2>@Model.Park.Name</h2>
+        <h4>@Model.Park.State</h4>
+        <div>"@Model.Park.InspirationalQuote" - @Model.Park.InspirationalQuoteSource</div>
+    </div>
+
+
+    <ul>
+        <li>Acreage: @Model.Park.Acreage</li>
+        <li>Elevation: @Model.Park.Elevation feet.</li>
+        <li>Miles of trail: @Model.Park.MilesOfTrail miles</li>
+        <li>Number of campsites: @Model.Park.NumberOfCampsites</li>
+        <li>Climate: @Model.Park.Climate</li>
+        <li>Year founded: @Model.Park.YearFounded</li>
+        <li>Annual visitors: @Model.Park.AnnualVisitorCount</li>
+        <li>Entry fee: $@Model.Park.EntryFee</li>
+        <li>Number of animal species: @Model.Park.NumberOfAnimalSpecies</li>
+    </ul>
+
+    <p>@Model.Park.Description</p>
+
+    
+    <div class="weather">
+        <div class="today">
+            <h3>Today</h3>
+            <img src="~/images/weather/@weatherImage0" />
+            <div class="recommend">
+                <div class="temps">
+                    @if (tempType == "Fahrenheit")
+                    {
+                        <span>High: @Model.Weathers[0].High</span>
+                        <span>Low: @Model.Weathers[0].Low</span>
+                    }
+                    @if (tempType == "Celsius")
+                    {
+                        <span>High: @ToCelsius(Model.Weathers[0].High)</span>
+                        <span>Low: @ToCelsius(Model.Weathers[0].Low)</span>
+                    }
+                </div>
+                @foreach (string item in Model.Weathers[0].Recommendations())
+                {
+                    <div> @item</div>
+                }
+            </div>
+            <div>
+                <form asp-action="Detail" method="get">
+                    @if (tempType == "Fahrenheit")
+                    {
+                        <label>Switch to:</label>
+                        <input type="submit" name="tempType" value="Celsius" />
+                    }
+                    @if (tempType == "Celsius")
+                    {
+                        <label>Switch to:</label>
+                        <input type="submit" name="tempType" value="Fahrenheit" />
+                    }
+                </form>
+            </div>
+        </div>
+
+
+        <div class="otherdays">
+            @for (int i = 1; i <= 4; i++)
+            {
+                <div class="day">
+
+                    <img src=@($"/images/weather/{Model.Weathers[i].Forecast.Replace(" ", "")}.png") />
+                    <div class="temps2">
+                        @if (tempType == "Fahrenheit")
+                        {
+                            <span>High: @Model.Weathers[i].High</span>
+                            <span>Low: @Model.Weathers[i].Low</span>
+                        }
+                        @if (tempType == "Celsius")
+                        {
+                            <span>High: @ToCelsius(Model.Weathers[i].High)</span>
+                            <span>Low: @ToCelsius(Model.Weathers[i].Low)</span>
+                        }
+                    </div>
+                    @foreach (string item in Model.Weathers[i].Recommendations())
+                    {
+                        <div> @item</div>
+                    }
+
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+
+

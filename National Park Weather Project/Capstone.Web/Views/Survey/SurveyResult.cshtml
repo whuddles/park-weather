@@ -1,0 +1,31 @@
+﻿@model IList<Park>
+
+@{
+    ViewData["Title"] = "SurveyResult";
+}
+
+<h3 class="successmessage">@ViewData["successMessage"]</h3>
+
+<h2>Survey Results</h2>
+
+
+
+@foreach (Park item in Model)
+{
+    string imageName = item.ParkCode + ".jpg";
+    <div class="parkblock">
+        <img src=@($"/images/parks/{item.ParkCode}.jpg") />
+
+        <div class="infoblock">
+            <h1>
+                @item.Name
+            </h1>
+            <h3>Number of favorites: @item.SurveyCount</h3>
+            <p>
+                @item.Description
+            </p>
+        </div>
+
+    </div>
+}
+
